@@ -1,0 +1,127 @@
+
+
+
+    <div class="container">
+           
+             <div class="row row-content" ng-controller="DishDetailController">
+
+
+      <div class="col-xs-12" ng-if="!showDish">
+                <h3>{{message}}</h3>
+            </div>
+            <div class="col-xs-12" ng-if="showDish">
+            <button class="btn btn-xs btn-primary pull-right"
+                    type="button" ui-sref="app.menu">
+                    Back to Menu
+                </button>
+
+                  <div class="media" ng-class="dish in dish">
+                    <div class="media-left media-middle">
+                       <a ui-sref="app.dishdetails({id:dish._id})">
+                        <img class="media-object img-thumbnail"
+                         ng-src={{dish.image}} alt="Uthappizza">
+                        </a>
+                      </div>
+                    <div class="media-body">
+
+                        <h2 class="media-heading">{{dish.name}}
+                         <span class="label label-danger">{{dish.label}}</span>
+                         <span class="badge">{{dish.price | currency}}</span></h2>
+                         <p>{{dish.description}}</p>
+                        
+                    </div>
+                   </div>
+                
+            </div>
+
+            <div class="col-xs-9 col-xs-offset-1">
+                <form class="form-inline">
+                   <div class="form-group">
+                   <h4> Customer Comments </h4> 
+                   </div>
+                   <div class="form-group">
+                     <label for="Sort"> Sort by:</label>
+                   <input type="text" class="form-control input-sm" name="Sort" id="Sort" ng-model="sort">  
+                   </div> 
+                </form>
+
+
+                     <div ng-repeat="comments in dish.comments | orderBy:sort">                   
+                              <blockquote>
+                             <h2 class="media-heading">{{comments.rating}} Star </h2>
+                             <p>{{comments.comment}}</p>
+                             <footer>
+                              {{comments.author}}
+                              <cite>{{comments.date|date:'medium'}}</cite>
+                             </footer>
+                            </blockquote>
+
+                           
+                       </div>
+
+            </div>        
+               <!--work of assignment 2 -->
+              
+                       <div class="col-xs-12" ng-controller="FeedbackController_menu">
+         
+                     <div ng-show="!feedbackForm_menu.$invalid && !feedbackForm_menu.$pristine " class="col-xs-offset-1">
+                           <blockquote>
+                            <h2 class="media-heading">{{feedback_menu.rating}} Star </h2>
+                             <p>{{feedback_menu.comment}}</p>
+                             <footer>
+                              {{feedback_menu.author}}
+                              <cite>{{feedback_menu.date|date:'medium'}}</cite>
+                             </footer>
+                            </blockquote>
+                            </div>
+                         
+
+                       <form class="form-horizontal"  role="form" name="feedbackForm_menu" ng-submit="submitComment()" novalidate>
+
+
+                       <div class="form-group" ng-class="{'has-error' : feedbackForm_menu.name.$error.required && !feedbackForm_menu.name.$pristine}">
+                       <label for="name" class="col-sm-3 control-label">Your Name:
+                       </label>
+                          <div class="col-sm-7">
+                         <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" ng-model="feedback_menu.author" required>
+                         <span ng-show="feedback_menu.name.$error.required && !feedback_menu.name.$pristine" class="help-block">Your name is required.</span>
+                          </div>  
+                       </div>  
+
+                       <div class="form-group"> 
+                    
+                        <label class="col-sm-3 control-label" for="table">Number of Stars</label>
+                      
+                       <div class="col-sm-7" name="table" id="table">  
+                         <label for="1" class="control-label"></label>
+                         <input type="radio" name="guests" id="1" value="1" ng-model="feedback_menu.rating" >&nbsp; 1
+                         <label for="2" class="control-label"></label>
+                         <input type="radio" name="guests" id="2" value="2" ng-model="feedback_menu.rating" >&nbsp; 2
+                         <label for="3" class="control-label"></label>
+                         <input type="radio" name="guests" id="3" value="3" ng-model="feedback_menu.rating" >&nbsp; 3
+                         <label for="4" class="control-label"></label>
+                         <input type="radio" name="guests" id="4" value="4" ng-model="feedback_menu.rating" >&nbsp; 4
+                         <label for="5" class="control-label"></label>
+                         <input type="radio" name="guests" id="5" value="5" ng-model="feedback_menu.rating" ng-checked="true" >&nbsp; 5
+                        </div>  
+                      </div>    
+
+                       <div class="form-group" ng-class="{'has-error' : feedbackForm.feedback_menu.$error.required && !feedbackForm.feedback_menu.$pristine}">
+                        <label for="feedback_menu.comment" class="col-sm-3 control-label">Your Feedback</label>
+                        <div class="col-sm-7">
+                            <textarea class="form-control" id="feedback_menu.comment" name="feedback_menu" rows="12" ng-model="feedback_menu.comment" required></textarea>
+                            <span ng-show="feedbackForm_menu.feedback.$error.required && !feedbackForm_menu.feedback.$pristine" class="help-block">Your comment is required.</span>
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-7">
+                            <button type="submit" class="btn btn-primary" ng-disabled="feedbackForm_menu.$invalid">Submit Comment</button>
+                        </div>
+                    </div>
+
+                       </form>
+                       </div>
+              
+       </div>
+
+    </div>
